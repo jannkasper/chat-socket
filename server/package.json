@@ -1,0 +1,16 @@
+{
+  "name": "chat",
+  "version": "0.0.1",
+  "main": "index.js",
+  "description": "my first socket.io app",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^3.0.5"
+  },
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5"
+  }
+}

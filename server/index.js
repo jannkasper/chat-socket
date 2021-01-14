@@ -12,13 +12,18 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
     console.log('a user connected');
+    const roomId = socket.handshake.query.roomId;
 
-    socket.on('chat message', (msg) => {
-        console.log('message: ' + msg);
-        io.emit('chat message', msg);
-
+    socket.on('join', (roomId) => {
+        console.log(`Socket ${socket.id} joining roomId: ${roomId}`);
+        socket.join(roomId);
     });
 
+    socket.on('chat message', (msg) => {
+        console.log('RoomId: ' + msg.roomId + ' message: ' + msg.text);
+        io.to(msg.roomId).emit('chat message', msg);
+
+    });
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });

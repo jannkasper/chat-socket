@@ -16,16 +16,34 @@ class Home extends Component {
         const socket = connectSocket(this.roomId);
         this.socket = socket;
 
-        if (this.socket && this.roomId) {
-            socket.emit("join", this.roomId);
-        }
+        socket.on('connect', () => {
+            this.socket.emit('USER_ENTER', {
+                username: this.username,
+            });
+        });
 
-        socket.on("chat message", msg => {
+        socket.on("MESSAGE", payload => {
             const item = document.createElement('li');
-            item.textContent = `${msg.username} : ${msg.text}`;
+            item.textContent = `${payload.username} : ${payload.text}`;
             this.messagesRef.current.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
         });
+
+        socket.on("USER_ENTER", payload => {
+            const item = document.createElement('li');
+            item.style.color = "green";
+            item.textContent = `${payload.users?.slice(-1)[0].username} joined chat`;
+            this.messagesRef.current.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+
+        socket.on("USER_EXIT", payload => {
+            const item = document.createElement('li');
+            item.style.color = "red";
+            item.textContent = `${payload.exitUser?.username} exit chat`;
+            this.messagesRef.current.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        })
 
         socket.on("disconnect", () => this.socket.disconnect())
     }
@@ -34,7 +52,7 @@ class Home extends Component {
     handleClick(e) {
         e.preventDefault();
         if (this.inputRef.current.value) {
-            this.socket.emit('chat message', {username: this.username, text: this.inputRef.current.value, roomId: this.roomId});
+            this.socket.emit('MESSAGE', {username: this.username, text: this.inputRef.current.value});
             this.inputRef.current.value = "";
         }
     };

@@ -4,9 +4,14 @@ const server = require("./index.js");
 
 class Socket {
     constructor(opts) {
-        const { roomId, socket } = opts;
+        const { roomId, socket, room } = opts;
         this._roomId = roomId;
         this.socket = socket;
+
+        if (room.isLocked) {
+            this.sendRoomLocked();
+            return;
+        }
 
         this.init(roomId, socket);
     }
@@ -14,6 +19,10 @@ class Socket {
     async init(roomId, socket) {
         await socket.join(roomId);
         this.handleSocket(socket);
+    }
+
+    sendRoomLocked() {
+        this.socket.emit("ROOM_LOCKED");
     }
 
     async saveRoom(room) {
@@ -45,6 +54,7 @@ class Socket {
                 room = {
                     id: this._roomId,
                     users: [],
+                    isLocked: false,
                     createdAt: Date.now(),
                 };
             }
@@ -64,6 +74,20 @@ class Socket {
             await this.saveRoom(newRoom);
 
             server.getIO().to(this._roomId).emit("USER_ENTER", newRoom)
+        });
+
+        socket.on("TOGGLE_LOCK_ROOM", async () => {
+            const room = await this.fetchRoom();
+            const userOwner = (room.users || []).find(user => user.socketId === socket.id && user.isOwner);
+
+            if (!userOwner) {
+                server.getIO().to(this._roomId).emit("TOGGLE_LOCK_ROOM", {isLocked: room.isLocked });
+                return;
+            }
+
+            await this.saveRoom({ ...room, isLocked: !room.isLocked });
+
+            server.getIO().to(this._roomId).emit("TOGGLE_LOCK_ROOM", {isLocked: !room.isLocked });
         })
 
         socket.on('disconnect', () => this.handleDisconnect(socket));

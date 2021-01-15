@@ -21,8 +21,10 @@ app.get('/', (req, res) => {
 io.on('connection', async (socket) => {
     console.log('user connected');
     const roomId = socket.handshake.query.roomId;
+    let room = await store.get('rooms', roomId);
+    room = JSON.parse(room || '{}');
 
-    new Socket({ roomId, socket });
+    new Socket({ roomId, room, socket });
 });
 
 http.listen(port, () => console.log(`Listening on port ${port}`));

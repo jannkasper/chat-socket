@@ -45,9 +45,29 @@ class Home extends Component {
             window.scrollTo(0, document.body.scrollHeight);
         })
 
+        socket.on("TOGGLE_LOCK_ROOM", payload => {
+            const item = document.createElement('li');
+            item.style.color = "red";
+            item.textContent = `ROOM LOCKED: ${payload.isLocked}`;
+            this.messagesRef.current.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+
+        socket.on("ROOM_LOCKED", () => {
+            const item = document.createElement('li');
+            item.style.color = "red";
+            item.textContent = `ROOM LOCKED`;
+            this.messagesRef.current.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        })
+
         socket.on("disconnect", () => this.socket.disconnect())
     }
 
+    handleLock(e) {
+        e.preventDefault();
+        this.socket.emit('TOGGLE_LOCK_ROOM');
+    };
 
     handleClick(e) {
         e.preventDefault();
@@ -63,6 +83,7 @@ class Home extends Component {
                 <ul ref={this.messagesRef}  id="messages"></ul>
                 <form id="form" action="">
                     <input ref={this.inputRef} id="input" autoComplete="off"/>
+                    <button onClick={e => this.handleLock(e)}>Lock room</button>
                     <button onClick={e => this.handleClick(e)}>Send</button>
                 </form>
             </div>

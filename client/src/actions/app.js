@@ -9,8 +9,8 @@ const receiveUserEnter = (payload, dispatch) => {
 
 const receiveUserExit = (payload, dispatch, getState) => {
     const state = getState();
-    const payloadIds = payload.users.map(member => member.id);
-    const exitingUser = state.room.members.find(member => payloadIds.includes(member.id));
+    const payloadIds = payload.map(member => member.publicKey.n);
+    const exitingUser = state.room.members.find(member => !payloadIds.includes(member.id));
 
     if (!exitingUser) {
         return;
@@ -22,7 +22,7 @@ const receiveUserExit = (payload, dispatch, getState) => {
     dispatch({
         type: 'USER_EXIT',
         payload: {
-            members: payload.users,
+            members: payload,
             id: exitingUserId,
             username: exitingUsername
         }

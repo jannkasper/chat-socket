@@ -47,6 +47,21 @@ const room = (state = initialState, action) => {
                     ];
                 }, [])
             };
+        case 'RECEIVE_ENCRYPTED_MESSAGE_ADD_USER':
+            return {
+                ...state,
+                members: state.members.map(member => {
+                    if (member.publicKey.n === action.payload.payload.publicKey.n) {
+                        return {
+                            ...member,
+                            username: action.payload.payload.username,
+                            isOwner: action.payload.payload.isOwner,
+                            id: action.payload.payload.publicKey.n,
+                        };
+                    }
+                    return member;
+                }),
+            };
         case "USER_EXIT":
             const memberIds = action.payload.members.map(m => m.publicKey.n);
 

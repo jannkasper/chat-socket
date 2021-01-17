@@ -44,27 +44,13 @@ class Home extends Component {
 
         socket.on("USER_EXIT", payload => {
             this.props.receiveUnencryptedMessage("USER_EXIT", payload);
-            // const item = document.createElement('li');
-            // item.style.color = "red";
-            // item.textContent = `${payload.exitUser?.username} exit chat`;
-            // this.messagesRef.current.appendChild(item);
-            // window.scrollTo(0, document.body.scrollHeight);
+
         })
 
         socket.on("TOGGLE_LOCK_ROOM", payload => {
-            // const item = document.createElement('li');
-            // item.style.color = "red";
-            // item.textContent = `ROOM LOCKED: ${payload.isLocked}`;
-            // this.messagesRef.current.appendChild(item);
-            // window.scrollTo(0, document.body.scrollHeight);
         });
 
         socket.on("ROOM_LOCKED", () => {
-            // const item = document.createElement('li');
-            // item.style.color = "red";
-            // item.textContent = `ROOM LOCKED`;
-            // this.messagesRef.current.appendChild(item);
-            // window.scrollTo(0, document.body.scrollHeight);
         })
 
         socket.on("disconnect", () => this.socket.disconnect())
@@ -120,7 +106,9 @@ class Home extends Component {
                                 case "TEXT_MESSAGE":
                                     return <li>{item.username} : {item.text}</li>
                                 case "USER_ENTER":
-                                    return <li color="green">{item.username} joined</li>
+                                    return <li style={{color: "green"}}>{item.username} joined</li>
+                                case "USER_EXIT":
+                                    return <li style={{color: "red"}}>{item.username} exit</li>
                                 default:
                                     return null
                             }

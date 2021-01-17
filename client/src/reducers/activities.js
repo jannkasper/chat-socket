@@ -45,6 +45,21 @@ const activities = (state = initialState, action) => {
                     },
                 ]
             }
+        case 'USER_EXIT':
+            if (!action.payload.id) {
+                return state;
+            }
+            return {
+                ...state,
+                items: [
+                    ...state.items,
+                    {
+                        type: "USER_EXIT",
+                        userId: action.payload.id,
+                        username: action.payload.username,
+                    },
+                ],
+            };
         default:
             return state;
     }

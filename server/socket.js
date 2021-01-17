@@ -98,7 +98,6 @@ class Socket {
     async handleDisconnect(socket) {
         let room = await this.fetchRoom();
 
-        let exitUser = room.users.find(user => user.socketId === socket.id);
         const newRoom = {
             ...room,
             users: (room.users || [])
@@ -108,7 +107,7 @@ class Socket {
 
         await this.saveRoom(newRoom);
 
-        server.getIO().to(this._roomId).emit("USER_EXIT", {users: newRoom.users, exitUser: exitUser });
+        server.getIO().to(this._roomId).emit("USER_EXIT", newRoom.users);
 
         if (newRoom.users && newRoom.users.length === 0) {
             await this.destroyRoom();

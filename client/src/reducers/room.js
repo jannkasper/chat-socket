@@ -38,7 +38,13 @@ const room = (state = initialState, action) => {
                     if (exists) {
                         return [ ...acc, {...user, ...exists} ];
                     }
-                    return [ ...acc, {...user} ];
+                    return [ ...acc,
+                        {
+                            publicKey: user.publicKey,
+                            isOwner: user.isOwner,
+                            id: user.publicKey.n
+                        },
+                    ];
                 }, [])
             };
         case "USER_EXIT":

@@ -19,7 +19,7 @@ class Home extends Component {
         this.socket = socket;
 
         socket.on('connect', () => {
-            this.socket.emit('USER_ENTER', { username: user.username, publicKey: user.publicKey });
+            this.socket.emit('USER_ENTER', { publicKey: user.publicKey });
         });
 
         socket.on("ENCRYPTED_MESSAGE", payload => {
@@ -31,12 +31,15 @@ class Home extends Component {
 
         socket.on("USER_ENTER", payload => {
             this.props.receiveUnencryptedMessage("USER_ENTER", payload);
-
-            // const item = document.createElement('li');
-            // item.style.color = "green";
-            // item.textContent = `${payload.users?.slice(-1)[0].username} joined chat`;
-            // this.messagesRef.current.appendChild(item);
-            // window.scrollTo(0, document.body.scrollHeight);
+            this.props.sendEncryptedMessage({
+                type: "ADD_USER",
+                payload: {
+                    username: this.props.username,
+                    publicKey: this.props.publicKey,
+                    isOwner: this.props.iAmOwner,
+                    id: this.props.userId,
+                }
+            })
         });
 
         socket.on("USER_EXIT", payload => {
@@ -112,8 +115,16 @@ class Home extends Component {
             <div className="App">
                 <ul ref={this.messagesRef}  id="messages">
                     {this.props.activities
-                        .filter(item => item.type == "TEXT_MESSAGE")
-                        .map(item => <li>{item.username} : {item.text}</li>)
+                        .map(item => {
+                            switch (item.type) {
+                                case "TEXT_MESSAGE":
+                                    return <li>{item.username} : {item.text}</li>
+                                case "USER_ENTER":
+                                    return <li color="green">{item.username} joined</li>
+                                default:
+                                    return null
+                            }
+                        })
                     }
                 </ul>
                 <form id="form" action="">

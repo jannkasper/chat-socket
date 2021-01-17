@@ -2,24 +2,30 @@
 exports.prepareMessage = (payload, state) =>
     new Promise(async resolve => {
         const myUsername = state.user.username;
+        const myId = state.user.id;
+
+        const jsonToSend = {
+            ...payload,
+            payload: {
+                ...payload.payload,
+                sender: myId,
+                username: myUsername,
+                text: encodeURI(payload.payload.text),
+            },
+        };
+
+        const payloadString = JSON.stringify(jsonToSend);
 
 
         resolve({
             toSend : {
-                username: myUsername,
-                text: payload.payload.text,
-            }
+                payload: payloadString,
+            },
+            original: jsonToSend
         });
     });
 
 exports.processMessage = (payload, state) =>
     new Promise(async resolve => {
-        const username = payload.payload.username;
-        const text = payload.payload.text;
-
-        resolve({
-            username,
-            text
-
-        });
+        resolve(JSON.parse(payload.payload.payload));
     });

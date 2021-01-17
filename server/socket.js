@@ -43,7 +43,7 @@ class Socket {
 
     handleSocket(socket) {
         socket.on('ENCRYPTED_MESSAGE', payload => {
-            console.log('Room: ' + this._roomId + ' | User: ' + payload.username + ' | Message: ' + payload.text);
+            // console.log('Room: ' + this._roomId + ' | User: ' + payload.username + ' | Message: ' + payload.text);
             socket.to(this._roomId).emit('ENCRYPTED_MESSAGE', payload);
         });
 
@@ -66,7 +66,6 @@ class Socket {
                     {
                         socketId: socket.id,
                         publicKey: payload.publicKey,
-                        username: payload.username,
                         isOwner: (room.users || []).length === 0,
                     }
                 ],

@@ -12,6 +12,7 @@ const mapStateToProps = state => {
         activities: state.activities.items,
         userId: state.user.id,
         username: state.user.username,
+        publicKey: state.user.publicKey,
         members: state.room.members.filter(m => m.username && m.id),
         roomId: state.room.id,
         roomLocked: state.room.isLocked,

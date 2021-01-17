@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import shortId from 'shortid';
 import { connect as connectSocket } from '../../utils/socket';
+import Crypto from "../../utils/crypto";
+
+const crypto = new Crypto();
 
 class Home extends Component {
     constructor(props) {
@@ -16,7 +19,7 @@ class Home extends Component {
         this.socket = socket;
 
         socket.on('connect', () => {
-            this.socket.emit('USER_ENTER', user);
+            this.socket.emit('USER_ENTER', { username: user.username, publicKey: user.publicKey });
         });
 
         socket.on("MESSAGE", payload => {
@@ -67,11 +70,20 @@ class Home extends Component {
     createUser() {
         return new Promise(async resolve => {
             const username = shortId.generate();
-            const id = shortId.generate();
+            const encryptDecryptKeys = await crypto.createEncryptDecryptKeys();
+            const exportedEncryptDecryptPrivateKey = await crypto.exportKey(encryptDecryptKeys.privateKey);
+            const exportedEncryptDecryptPublicKey = await crypto.exportKey(encryptDecryptKeys.publicKey);
 
-            this.props.createUser({ username, id });
+            this.props.createUser({
+                username,
+                publicKey: exportedEncryptDecryptPublicKey,
+                privateKey: exportedEncryptDecryptPrivateKey,
+            });
 
-            resolve({ username, id })
+            resolve({
+                username,
+                publicKey: exportedEncryptDecryptPublicKey,
+            })
 
         })
     }

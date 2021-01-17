@@ -65,7 +65,7 @@ class Socket {
                     ...(room.users || []),
                     {
                         socketId: socket.id,
-                        id: payload.id,
+                        publicKey: payload.publicKey,
                         username: payload.username,
                         isOwner: (room.users || []).length === 0,
                     }

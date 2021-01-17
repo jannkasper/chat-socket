@@ -21,19 +21,20 @@ const room = (state = initialState, action) => {
                     ...state.members,
                     {
                         username: action.payload.username,
-                        id: action.payload.id
+                        publicKey: action.payload.publicKey,
+                        id: action.payload.publicKey.n,
                     },
                 ],
             };
         case "USER_ENTER":
-            const members = _.uniqBy(action.payload.users, member => member.id);
+            const members = _.uniqBy(action.payload.users, member => member.publicKey.n);
 
             return {
                 ...state,
                 id: action.payload.id,
                 isLocked: Boolean(action.payload.isLocked),
                 members: members.reduce((acc, user) => {
-                    const exists = state.members.find(m => m.id === user.id);
+                    const exists = state.members.find(m => m.publicKey.n === user.publicKey.n);
                     if (exists) {
                         return [ ...acc, {...user, ...exists} ];
                     }
@@ -41,14 +42,14 @@ const room = (state = initialState, action) => {
                 }, [])
             };
         case "USER_EXIT":
-            const memberIds = action.payload.members.map(m => m.id);
+            const memberIds = action.payload.members.map(m => m.publicKey.n);
 
             return {
                 ...state,
                 members: state.members
-                    .filter(member => memberIds.includes(member.id))
+                    .filter(member => memberIds.includes(member.publicKey.n))
                     .map(member => {
-                        const thisMember = action.payload.members.find(mem => mem.id === member.id);
+                        const thisMember = action.payload.members.find(mem => mem.publicKey.id === member.id);
                         if (thisMember) {
                             return { ...member, isOwner: thisMember.isOwner};
                         }

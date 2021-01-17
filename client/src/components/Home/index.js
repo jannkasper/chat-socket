@@ -1,11 +1,15 @@
 import Home from "./Home";
 import { connect } from "react-redux";
-import { createUser, receiveUnencryptedMessage } from "../../actions";
+import { createUser,
+    receiveUnencryptedMessage,
+    sendEncryptedMessage,
+    receiveEncryptedMessage } from "../../actions";
 
 const mapStateToProps = state => {
     const me = state.room.members.find(member => member.id === state.user.id);
 
     return {
+        activities: state.activities.items,
         userId: state.user.id,
         username: state.user.username,
         members: state.room.members.filter(m => m.username && m.id),
@@ -18,6 +22,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     createUser,
     receiveUnencryptedMessage,
+    sendEncryptedMessage,
+    receiveEncryptedMessage,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

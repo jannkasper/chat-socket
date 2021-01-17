@@ -22,46 +22,46 @@ class Home extends Component {
             this.socket.emit('USER_ENTER', { username: user.username, publicKey: user.publicKey });
         });
 
-        socket.on("MESSAGE", payload => {
-            const item = document.createElement('li');
-            item.textContent = `${payload.username} : ${payload.text}`;
-            this.messagesRef.current.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
+        socket.on("ENCRYPTED_MESSAGE", payload => {
+            this.props.receiveEncryptedMessage({
+                type: 'TEXT_MESSAGE',
+                payload
+            })
         });
 
         socket.on("USER_ENTER", payload => {
             this.props.receiveUnencryptedMessage("USER_ENTER", payload);
 
-            const item = document.createElement('li');
-            item.style.color = "green";
-            item.textContent = `${payload.users?.slice(-1)[0].username} joined chat`;
-            this.messagesRef.current.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
+            // const item = document.createElement('li');
+            // item.style.color = "green";
+            // item.textContent = `${payload.users?.slice(-1)[0].username} joined chat`;
+            // this.messagesRef.current.appendChild(item);
+            // window.scrollTo(0, document.body.scrollHeight);
         });
 
         socket.on("USER_EXIT", payload => {
             this.props.receiveUnencryptedMessage("USER_EXIT", payload);
-            const item = document.createElement('li');
-            item.style.color = "red";
-            item.textContent = `${payload.exitUser?.username} exit chat`;
-            this.messagesRef.current.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
+            // const item = document.createElement('li');
+            // item.style.color = "red";
+            // item.textContent = `${payload.exitUser?.username} exit chat`;
+            // this.messagesRef.current.appendChild(item);
+            // window.scrollTo(0, document.body.scrollHeight);
         })
 
         socket.on("TOGGLE_LOCK_ROOM", payload => {
-            const item = document.createElement('li');
-            item.style.color = "red";
-            item.textContent = `ROOM LOCKED: ${payload.isLocked}`;
-            this.messagesRef.current.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
+            // const item = document.createElement('li');
+            // item.style.color = "red";
+            // item.textContent = `ROOM LOCKED: ${payload.isLocked}`;
+            // this.messagesRef.current.appendChild(item);
+            // window.scrollTo(0, document.body.scrollHeight);
         });
 
         socket.on("ROOM_LOCKED", () => {
-            const item = document.createElement('li');
-            item.style.color = "red";
-            item.textContent = `ROOM LOCKED`;
-            this.messagesRef.current.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
+            // const item = document.createElement('li');
+            // item.style.color = "red";
+            // item.textContent = `ROOM LOCKED`;
+            // this.messagesRef.current.appendChild(item);
+            // window.scrollTo(0, document.body.scrollHeight);
         })
 
         socket.on("disconnect", () => this.socket.disconnect())
@@ -93,10 +93,16 @@ class Home extends Component {
         this.socket.emit('TOGGLE_LOCK_ROOM');
     };
 
-    handleClick(e) {
+    handleSendMessage(e) {
         e.preventDefault();
         if (this.inputRef.current.value) {
-            this.socket.emit('MESSAGE', {username: this.props.username, text: this.inputRef.current.value});
+            this.props.sendEncryptedMessage({
+                type: 'TEXT_MESSAGE',
+                payload: {
+                    text: this.inputRef.current.value,
+                    timestamp: Date.now(),
+                }
+            })
             this.inputRef.current.value = "";
         }
     };
@@ -104,10 +110,15 @@ class Home extends Component {
     render() {
         return (
             <div className="App">
-                <ul ref={this.messagesRef}  id="messages"></ul>
+                <ul ref={this.messagesRef}  id="messages">
+                    {this.props.activities
+                        .filter(item => item.type == "TEXT_MESSAGE")
+                        .map(item => <li>{item.username} : {item.text}</li>)
+                    }
+                </ul>
                 <form id="form" action="">
                     <input ref={this.inputRef} id="input" autoComplete="off"/>
-                    <button onClick={e => this.handleClick(e)}>Send</button>
+                    <button onClick={e => this.handleSendMessage(e)}>Send</button>
                     <button onClick={e => this.handleLock(e)}>Lock room</button>
                 </form>
             </div>

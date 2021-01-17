@@ -42,9 +42,9 @@ class Socket {
     }
 
     handleSocket(socket) {
-        socket.on('MESSAGE', payload => {
+        socket.on('ENCRYPTED_MESSAGE', payload => {
             console.log('Room: ' + this._roomId + ' | User: ' + payload.username + ' | Message: ' + payload.text);
-            server.getIO().to(this._roomId).emit('MESSAGE', payload);
+            socket.to(this._roomId).emit('ENCRYPTED_MESSAGE', payload);
         });
 
         socket.on("USER_ENTER", async payload => {

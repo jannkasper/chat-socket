@@ -5,7 +5,7 @@
   "description": "my first socket.io app",
   "scripts": {
     "setup": "yarn && cd client && yarn && cd ../server && yarn",
-    "dev": "concurrently 'cd client && yarn start' 'cd server && yarn dev'"
+    "start": "concurrently 'cd client && yarn start' 'cd server && yarn dev'"
   },
   "devDependencies": {
     "concurrently": "^4.1.0"

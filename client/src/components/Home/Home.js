@@ -48,6 +48,7 @@ class Home extends Component {
         })
 
         socket.on("TOGGLE_LOCK_ROOM", payload => {
+            this.props.receiveUnencryptedMessage("TOGGLE_LOCK_ROOM", payload);
         });
 
         socket.on("ROOM_LOCKED", () => {
@@ -79,7 +80,7 @@ class Home extends Component {
 
     handleLock(e) {
         e.preventDefault();
-        this.socket.emit('TOGGLE_LOCK_ROOM');
+        this.props.sendUnencryptedMessage("TOGGLE_LOCK_ROOM", undefined);
     };
 
     handleSendMessage(e) {
@@ -109,6 +110,8 @@ class Home extends Component {
                                     return <li style={{color: "green"}}>{item.username} joined</li>
                                 case "USER_EXIT":
                                     return <li style={{color: "red"}}>{item.username} exit</li>
+                                case "TOGGLE_LOCK_ROOM":
+                                    return <li style={{color: "red"}}>{item.locked ? "Room locked" : "Room unlocked"}</li>
                                 default:
                                     return null
                             }

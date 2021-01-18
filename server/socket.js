@@ -76,18 +76,24 @@ class Socket {
             server.getIO().to(this._roomId).emit("USER_ENTER", newRoom)
         });
 
-        socket.on("TOGGLE_LOCK_ROOM", async () => {
+        socket.on("TOGGLE_LOCK_ROOM", async (data, callback) => {
             const room = await this.fetchRoom();
             const userOwner = (room.users || []).find(user => user.socketId === socket.id && user.isOwner);
 
             if (!userOwner) {
-                server.getIO().to(this._roomId).emit("TOGGLE_LOCK_ROOM", {isLocked: room.isLocked });
+                callback({
+                    isLocked: room.isLocked,
+                })
                 return;
             }
 
             await this.saveRoom({ ...room, isLocked: !room.isLocked });
 
-            server.getIO().to(this._roomId).emit("TOGGLE_LOCK_ROOM", {isLocked: !room.isLocked });
+            socket.to(this._roomId).emit("TOGGLE_LOCK_ROOM", {isLocked: !room.isLocked, publicKey: userOwner && userOwner.publicKey });
+
+            callback({
+                isLocked: !room.isLocked,
+            });
         })
 
         socket.on('disconnect', () => this.handleDisconnect(socket));

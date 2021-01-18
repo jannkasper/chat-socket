@@ -77,6 +77,16 @@ const room = (state = initialState, action) => {
                         return { ...member };
                     }),
             }
+        case 'TOGGLE_LOCK_ROOM':
+            return {
+                ...state,
+                isLocked: action.payload.locked,
+            };
+        case 'RECEIVE_TOGGLE_LOCK_ROOM':
+            return {
+                ...state,
+                isLocked: action.payload.locked,
+            };
         default:
             return state
 

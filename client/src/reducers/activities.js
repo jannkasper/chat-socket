@@ -29,8 +29,8 @@ const activities = (state = initialState, action) => {
         case "RECEIVE_ENCRYPTED_MESSAGE_ADD_USER":
             const newUserId = action.payload.payload.id;
 
-            const haveUser = state.items.filter(s => s.type === "USER_ENTER" && s.userId == newUserId).length;
-            if (haveUser != 0) {
+            const haveUser = state.items.filter(s => s.type === "USER_ENTER" && s.userId === newUserId).length;
+            if (haveUser !== 0) {
                 return state;
             }
 
@@ -45,7 +45,7 @@ const activities = (state = initialState, action) => {
                     },
                 ]
             }
-        case 'USER_EXIT':
+        case "USER_EXIT":
             if (!action.payload.id) {
                 return state;
             }
@@ -60,6 +60,34 @@ const activities = (state = initialState, action) => {
                     },
                 ],
             };
+        case "TOGGLE_LOCK_ROOM":
+            return {
+                ...state,
+                items: [
+                    ...state.items,
+                    {
+                        type: "TOGGLE_LOCK_ROOM",
+                        username: action.payload.username,
+                        userId: action.payload.id,
+                        locked: action.payload.locked,
+                        sender: action.payload.sender,
+                    }
+                ]
+            }
+        case "RECEIVE_TOGGLE_LOCK_ROOM":
+            return {
+                ...state,
+                items: [
+                    ...state.items,
+                    {
+                        type: "TOGGLE_LOCK_ROOM",
+                        username: action.payload.username,
+                        userId: action.payload.id,
+                        locked: action.payload.locked,
+                        sender: action.payload.sender,
+                    }
+                ]
+            }
         default:
             return state;
     }

@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { createUser,
     receiveUnencryptedMessage,
     sendEncryptedMessage,
-    receiveEncryptedMessage } from "../../actions";
+    receiveEncryptedMessage,
+    sendUnencryptedMessage } from "../../actions";
 
 const mapStateToProps = state => {
     const me = state.room.members.find(member => member.id === state.user.id);
@@ -25,6 +26,7 @@ const mapDispatchToProps = {
     receiveUnencryptedMessage,
     sendEncryptedMessage,
     receiveEncryptedMessage,
+    sendUnencryptedMessage
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

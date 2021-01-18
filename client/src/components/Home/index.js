@@ -4,7 +4,8 @@ import { createUser,
     receiveUnencryptedMessage,
     sendEncryptedMessage,
     receiveEncryptedMessage,
-    sendUnencryptedMessage } from "../../actions";
+    sendUnencryptedMessage,
+    toggleSocketConnected} from "../../actions";
 
 const mapStateToProps = state => {
     const me = state.room.members.find(member => member.id === state.user.id);
@@ -18,6 +19,8 @@ const mapStateToProps = state => {
         roomId: state.room.id,
         roomLocked: state.room.isLocked,
         iAmOwner: Boolean(me && me.isOwner),
+        socketConnected: state.app.socketConnected,
+
     }
 }
 
@@ -26,7 +29,8 @@ const mapDispatchToProps = {
     receiveUnencryptedMessage,
     sendEncryptedMessage,
     receiveEncryptedMessage,
-    sendUnencryptedMessage
+    sendUnencryptedMessage,
+    toggleSocketConnected
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

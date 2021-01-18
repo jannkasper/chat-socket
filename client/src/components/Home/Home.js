@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import shortId from 'shortid';
+import { X, AlertCircle } from 'react-feather';
+import classNames from 'classnames';
 import { connect as connectSocket } from '../../utils/socket';
 import Crypto from "../../utils/crypto";
+
+import styles from "./styles.module.scss"
+import Nav from "../Nav";
 
 const crypto = new Crypto();
 
@@ -19,8 +24,11 @@ class Home extends Component {
         this.socket = socket;
 
         socket.on('connect', () => {
-            this.socket.emit('USER_ENTER', { publicKey: user.publicKey });
+            this.socket.emit('USER_ENTER', {publicKey: user.publicKey});
+            this.props.toggleSocketConnected(true);
         });
+
+        socket.on("disconnect", () => this.props.toggleSocketConnected(true));
 
         socket.on("ENCRYPTED_MESSAGE", payload => {
             this.props.receiveEncryptedMessage({
@@ -54,7 +62,9 @@ class Home extends Component {
         socket.on("ROOM_LOCKED", () => {
         })
 
-        socket.on("disconnect", () => this.socket.disconnect())
+        window.addEventListener('beforeunload', evt => {
+            socket.emit('USER_DISCONNECT');
+        });
     }
 
     createUser() {
@@ -78,11 +88,6 @@ class Home extends Component {
         })
     }
 
-    handleLock(e) {
-        e.preventDefault();
-        this.props.sendUnencryptedMessage("TOGGLE_LOCK_ROOM", undefined);
-    };
-
     handleSendMessage(e) {
         e.preventDefault();
         if (this.inputRef.current.value) {
@@ -99,8 +104,30 @@ class Home extends Component {
 
     render() {
         return (
-            <div className="App">
-                <ul ref={this.messagesRef}  id="messages">
+            <div className={classNames(styles.styles, 'h-100')}>
+                <div className="nav-container">
+                    {!this.props.socketConnected && (
+                        <div className="alert-banner">
+                          <span className="icon">
+                            <AlertCircle size="15" />
+                          </span>{' '}
+                          <span>Disconnected</span>
+                        </div>
+                    )}
+                    <Nav
+                        members={this.props.members}
+                        roomId={this.props.roomId}
+                        roomLocked={this.props.roomLocked}
+                        toggleLockRoom={() => this.props.sendUnencryptedMessage('TOGGLE_LOCK_ROOM', undefined)}
+                        // openModal={this.props.openModal}
+                        iAmOwner={this.props.iAmOwner}
+                        userId={this.props.userId}
+                        // translations={this.props.translations}
+                    />
+                </div>
+
+
+                <ul ref={this.messagesRef}  id="messages" className="main-chat">
                     {this.props.activities
                         .map(item => {
                             switch (item.type) {
@@ -111,7 +138,7 @@ class Home extends Component {
                                 case "USER_EXIT":
                                     return <li style={{color: "red"}}>{item.username} exit</li>
                                 case "TOGGLE_LOCK_ROOM":
-                                    return <li style={{color: "red"}}>{item.locked ? "Room locked" : "Room unlocked"}</li>
+                                    return <li style={{color: "red"}}>{item.username} {item.locked ? "locked the room" : "unlocked the room"}</li>
                                 default:
                                     return null
                             }
@@ -121,7 +148,6 @@ class Home extends Component {
                 <form id="form" action="">
                     <input ref={this.inputRef} id="input" autoComplete="off"/>
                     <button onClick={e => this.handleSendMessage(e)}>Send</button>
-                    <button onClick={e => this.handleLock(e)}>Lock room</button>
                 </form>
             </div>
         );

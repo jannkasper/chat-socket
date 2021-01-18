@@ -8,6 +8,10 @@ const receiveUserEnter = (payload, dispatch) => {
     dispatch({ type: "USER_ENTER", payload });
 };
 
+export const toggleSocketConnected = payload => async dispatch => {
+    dispatch({ type: 'TOGGLE_SOCKET_CONNECTED', payload });
+};
+
 const receiveUserExit = (payload, dispatch, getState) => {
     const state = getState();
     const payloadIds = payload.map(member => member.publicKey.n);

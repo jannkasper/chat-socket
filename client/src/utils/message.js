@@ -1,5 +1,5 @@
 
-exports.prepareMessage = (payload, state) =>
+export const prepare = (payload, state) =>
     new Promise(async resolve => {
         const myUsername = state.user.username;
         const myId = state.user.id;
@@ -25,7 +25,7 @@ exports.prepareMessage = (payload, state) =>
         });
     });
 
-exports.processMessage = (payload, state) =>
+export const process = (payload, state) =>
     new Promise(async resolve => {
         resolve(JSON.parse(payload.payload.payload));
     });

@@ -1,4 +1,4 @@
-const MemoryStore = require("./Memory");
+import MemoryStore from "./Memory.js";
 
 let store;
 
@@ -11,4 +11,4 @@ const getStore = () => {
     return store;
 }
 
-module.exports = getStore;
+export default getStore;

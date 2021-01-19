@@ -1,5 +1,5 @@
 import { getSocket } from "../utils/socket";
-import { prepareMessage, processMessage } from "../utils/message";
+import { prepare as prepareMessage, process as processMessage } from "../utils/message";
 
 
 

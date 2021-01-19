@@ -1,8 +1,8 @@
-const _ = require("lodash");
-const getStore = require("./store");
-const server = require("./index.js");
+import _ from "lodash";
+import getStore from "./store/index.js";
+import { getIO } from "./index.js";
 
-class Socket {
+export default class Socket {
     constructor(opts) {
         const { roomId, socket, room } = opts;
         this._roomId = roomId;
@@ -73,7 +73,7 @@ class Socket {
 
             await this.saveRoom(newRoom);
 
-            server.getIO().to(this._roomId).emit("USER_ENTER", newRoom)
+            getIO().to(this._roomId).emit("USER_ENTER", newRoom)
         });
 
         socket.on("TOGGLE_LOCK_ROOM", async (data, callback) => {
@@ -113,7 +113,7 @@ class Socket {
 
         await this.saveRoom(newRoom);
 
-        server.getIO().to(this._roomId).emit("USER_EXIT", newRoom.users);
+        getIO().to(this._roomId).emit("USER_EXIT", newRoom.users);
 
         if (newRoom.users && newRoom.users.length === 0) {
             await this.destroyRoom();
@@ -122,5 +122,3 @@ class Socket {
         socket.disconnect(true);
     }
 }
-
-exports.Socket = Socket

@@ -4,6 +4,8 @@
   "main": "index.js",
   "description": "my first socket.io app",
   "scripts": {
+    "build": "./build.sh",
+    "start": "cd server && CLIENT_DIST_DIRECTORY='../client/build' yarn start",
     "setup": "yarn && cd client && yarn && cd ../server && yarn",
     "dev": "concurrently 'cd client && yarn start' 'cd server && yarn dev'"
   },

@@ -1,5 +1,5 @@
 
-class MemoryStore {
+export class MemoryStore {
     constructor() {
         this.store = {};
     }
@@ -50,4 +50,4 @@ class MemoryStore {
     }
 }
 
-module.exports = MemoryStore
+export default MemoryStore;

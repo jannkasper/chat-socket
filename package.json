@@ -4,8 +4,8 @@
   "main": "index.js",
   "description": "my first socket.io app",
   "scripts": {
-    "build": "yarn && cd client && yarn && cd ../server && yarn",
-    "start": "concurrently 'cd client && yarn start' 'cd server && yarn dev'"
+    "setup": "yarn && cd client && yarn && cd ../server && yarn",
+    "dev": "concurrently 'cd client && yarn start' 'cd server && yarn dev'"
   },
   "devDependencies": {
     "concurrently": "^4.1.0"

@@ -10,7 +10,9 @@
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "jquery": "^3.5.0",
+    "moment": "^2.29.1",
     "node-sass": "^4.13.1",
+    "randomcolor": "^0.6.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-feather": "^2.0.9",
@@ -49,5 +51,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prop-types": "^15.7.2",
+    "react-linkify": "^1.0.0-alpha"
   }
 }

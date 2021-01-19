@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-simple-dropdown/styles/Dropdown.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./stylesheets/app.sass";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import React, { Component } from "react";
 import { Redirect } from "react-router";
 import { Provider } from "react-redux";
@@ -19,10 +19,12 @@ class Root extends Component {
         return (
             <Provider store={store}>
                 <BrowserRouter>
-                    <Switch>
-                        <Route exact path="/" render={() => <Redirect to={`/${shortId.generate()}`} />} />
-                        <Route path="/:roomId" component={Home}/>
-                    </Switch>
+                    <div className="h-100">
+                        <Switch>
+                            <Route exact path="/" render={() => <Redirect to={`/${shortId.generate()}`} />} />
+                            <Route path="/:roomId" component={Home}/>
+                        </Switch>
+                    </div>
                 </BrowserRouter>
             </Provider>
         )

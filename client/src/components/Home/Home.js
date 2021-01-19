@@ -4,9 +4,10 @@ import { X, AlertCircle } from 'react-feather';
 import classNames from 'classnames';
 import { connect as connectSocket } from '../../utils/socket';
 import Crypto from "../../utils/crypto";
+import Nav from "../Nav";
+import ActivityList from "./ActivityList";
 
 import styles from "./styles.module.scss"
-import Nav from "../Nav";
 
 const crypto = new Crypto();
 
@@ -104,7 +105,7 @@ class Home extends Component {
 
     render() {
         return (
-            <div className={classNames(styles.styles, 'h-100')}>
+            <div className={classNames(styles.styles, "h-100")}>
                 <div className="nav-container">
                     {!this.props.socketConnected && (
                         <div className="alert-banner">
@@ -125,30 +126,7 @@ class Home extends Component {
                         // translations={this.props.translations}
                     />
                 </div>
-
-
-                <ul ref={this.messagesRef}  id="messages" className="main-chat">
-                    {this.props.activities
-                        .map(item => {
-                            switch (item.type) {
-                                case "TEXT_MESSAGE":
-                                    return <li>{item.username} : {item.text}</li>
-                                case "USER_ENTER":
-                                    return <li style={{color: "green"}}>{item.username} joined</li>
-                                case "USER_EXIT":
-                                    return <li style={{color: "red"}}>{item.username} exit</li>
-                                case "TOGGLE_LOCK_ROOM":
-                                    return <li style={{color: "red"}}>{item.username} {item.locked ? "locked the room" : "unlocked the room"}</li>
-                                default:
-                                    return null
-                            }
-                        })
-                    }
-                </ul>
-                <form id="form" action="">
-                    <input ref={this.inputRef} id="input" autoComplete="off"/>
-                    <button onClick={e => this.handleSendMessage(e)}>Send</button>
-                </form>
+                <ActivityList activities={this.props.activities} />
             </div>
         );
     }

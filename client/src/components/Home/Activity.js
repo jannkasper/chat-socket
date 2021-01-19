@@ -23,6 +23,24 @@ const Activity = ({ activity, scrollToBottom }) => {
                     </div>
                 </Notice>
             );
+        case 'TOGGLE_LOCK_ROOM':
+            if (activity.locked) {
+                return (
+                    <Notice>
+                        <div>
+                            <Username key={0} username={activity.username} /> locked the room
+                        </div>
+                    </Notice>
+                );
+            } else {
+                return (
+                    <Notice>
+                        <div>
+                            <Username key={0} username={activity.username} /> unlocked the room
+                        </div>
+                    </Notice>
+                );
+            }
         default:
             return false;
     }

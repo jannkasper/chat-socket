@@ -1,8 +1,11 @@
 {
   "name": "chat",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "server/src/index.js",
   "description": "my first socket.io app",
+  "engines": {
+    "yarn": "1.x"
+  },
   "scripts": {
     "build": "./build.sh",
     "start": "cd server && CLIENT_DIST_DIRECTORY='../client/build' yarn start",

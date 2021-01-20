@@ -2,6 +2,7 @@
 export class MemoryStore {
     constructor() {
         this.store = {};
+        this.hasSocketAdapter = false;
     }
 
     async get(key, field) {

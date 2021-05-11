@@ -70,7 +70,7 @@ const room = (state = initialState, action) => {
                 members: state.members
                     .filter(member => memberIds.includes(member.publicKey.n))
                     .map(member => {
-                        const thisMember = action.payload.members.find(mem => mem.publicKey.id === member.id);
+                        const thisMember = action.payload.members.find(mem => mem.publicKey.n === member.id);
                         if (thisMember) {
                             return { ...member, isOwner: thisMember.isOwner};
                         }

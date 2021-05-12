@@ -110,7 +110,7 @@ export class Chat extends Component {
                     autoFocus
                     className="chat"
                     value={this.state.message}
-                    // placeholder={this.props.translations.typePlaceholder}
+                    placeholder={this.props.translations?.typePlaceholder}
                     onChange={this.handleInputChange.bind(this)}
                 />
             </form>

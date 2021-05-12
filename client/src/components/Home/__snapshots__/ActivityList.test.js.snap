@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActivityList component should display 1`] = `
+<DocumentFragment>
+  <div
+    class="main-chat"
+  >
+    <div
+      class="message-stream h-100"
+      data-testid="main-div"
+    >
+      <ul
+        class="plain"
+      >
+        <li>
+          <p
+            class="tos"
+          >
+            <button
+              class="btn btn-link"
+            >
+               
+              <span>
+                By using Chat-Socket, you are agreeing to our Acceptable Use Policy and Terms of Service
+              </span>
+            </button>
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div
+      class="chat-container"
+    >
+      <form
+        class="chat-preflight-container"
+      >
+        <textarea
+          class="chat"
+          rows="1"
+        />
+      </form>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`ActivityList component should display with activities 1`] = `
+<DocumentFragment>
+  <div
+    class="main-chat"
+  >
+    <div
+      class="message-stream h-100"
+      data-testid="main-div"
+    >
+      <ul
+        class="plain"
+      >
+        <li>
+          <p
+            class="tos"
+          >
+            <button
+              class="btn btn-link"
+            >
+               
+              <span>
+                By using Chat-Socket, you are agreeing to our Acceptable Use Policy and Terms of Service
+              </span>
+            </button>
+          </p>
+        </li>
+        <li
+          class="activity-item TEXT_MESSAGE"
+        >
+          <div>
+            <div
+              class="chat-meta"
+            >
+              <span
+                class="username"
+                style="color: rgb(204, 241, 255);"
+              >
+                alice
+              </span>
+              <span
+                class="muted timestamp"
+              >
+                12:01 PM
+              </span>
+            </div>
+            <div
+              class="chat"
+            >
+              Hi!
+            </div>
+          </div>
+        </li>
+        <li
+          class="activity-item USER_ENTER"
+        >
+          <div>
+            <div
+              class="info"
+            >
+              <div>
+                <span
+                  class="username"
+                  style="color: rgb(204, 241, 255);"
+                >
+                  alice
+                </span>
+                 joined
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="activity-item CHANGE_USERNAME"
+        />
+      </ul>
+    </div>
+    <div
+      class="chat-container"
+    >
+      <form
+        class="chat-preflight-container"
+      >
+        <textarea
+          class="chat"
+          rows="1"
+        />
+      </form>
+    </div>
+  </div>
+</DocumentFragment>
+`;

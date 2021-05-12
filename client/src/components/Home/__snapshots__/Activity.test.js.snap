@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Activity component should display 1`] = `<DocumentFragment />`;
+
+exports[`Activity component should display TEXT_MESSAGE 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="chat-meta"
+    >
+      <span
+        class="username"
+        style="color: rgb(204, 241, 255);"
+      >
+        alice
+      </span>
+      <span
+        class="muted timestamp"
+      >
+        12:01 PM
+      </span>
+    </div>
+    <div
+      class="chat"
+    >
+      Hi!
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Activity component should display TOGGLE_LOCK_ROOM 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="info"
+    >
+      <div>
+        <span
+          class="username"
+          style="color: rgb(204, 241, 255);"
+        >
+          alice
+        </span>
+         locked the room
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Activity component should display TOGGLE_LOCK_ROOM 2`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="info"
+    >
+      <div>
+        <span
+          class="username"
+          style="color: rgb(204, 241, 255);"
+        >
+          alice
+        </span>
+         unlocked the room
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Activity component should display USER_ENTER 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="info"
+    >
+      <div>
+        <span
+          class="username"
+          style="color: rgb(204, 241, 255);"
+        >
+          alice
+        </span>
+         joined
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Activity component should display USER_EXIT 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="info"
+    >
+      <div>
+        <span
+          class="username"
+          style="color: rgb(204, 241, 255);"
+        >
+          alice
+        </span>
+         left
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

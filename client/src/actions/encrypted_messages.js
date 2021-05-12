@@ -13,7 +13,7 @@ export const sendEncryptedMessage = payload => async (dispatch, getState) => {
 export const receiveEncryptedMessage = payload => async (dispatch, getState) => {
     const state = getState();
     const message = await processMessage(payload, state);
-    dispatch({ type: `RECEIVE_ENCRYPTED_MESSAGE_${message.type}`, payload: { payload: message.payload, state }})
+    dispatch({ type: `RECEIVE_ENCRYPTED_MESSAGE_${payload.type}`, payload: { payload: message.payload, state }})
 
 
 

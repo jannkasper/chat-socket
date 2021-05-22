@@ -1,70 +1,127 @@
-# Getting Started with Create React Home
+## Encrypted Chat Socket
+- Live: https://jkasper-chat-socket.herokuapp.com/ (be patient, server is sleeping)
 
-This project was bootstrapped with [Create React Home](https://github.com/facebook/create-react-app).
+[![Product Name Screen Shot][product-screenshot]](https://github.com/jannkasper/stackoverflow-next/blob/master/screenshot.png)
 
-## Available Scripts
+## :rocket: Tech Stack
 
-In the project directory, you can run:
+- ReactJs
+- Redux
+- Socket.io
+- Redis
+- NodeJs
 
-### `yarn start`
+- Koa
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## :warning: Prerequisite
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- node
+- npm
+- redis
 
-### `yarn test`
+## :cd: How to run local
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+# Clone this repository
+$ git clone https://github.com/jannkasper/encrypted-chat-socket
 
-### `yarn build`
+# Go into server
+$ cd encrypted-chat-socket/server
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Create configuration file (copy .env.dist)
+$ echo 'STORE_BACKEND=redis' >> .env
+$ echo 'STORE_HOST=<redis-url>' >> .env
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Install dependencies
+$ npm install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Start the backend server
+$ npm run dev
 
-### `yarn eject`
+# On another terminal, go to the client folder
+$ cd encrypted-chat-socket/client
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Install dependencies
+$ npm install
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Start the frontend client
+$ npm run start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## :globe_with_meridians: Deploy
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Deploying Server App on Heroku
 
-## Learn More
+- Create a [Heroku](https://dashboard.heroku.com/new-app) new app.
+- Add Heroku Redis to resources
+- Go to app settings
+- Add the following enviroments.
+  - STORE_BACKEND = 'redis'
+  - STORE_HOST (Redis URL)
+- Add Nodejs to buildpacks
 
-You can learn more in the [Create React Home documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+-
+      # Go into the repository
+      $ cd stackoverflow-next
+  
+      # Heroku Setup
+      $ npm install -g heroku
+      $ heroku login
+      $ heroku git:remote -a your-app-name
+  
+      # push repository
+      $ git push heroku master
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+## :book: Directory Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
+├── app/
+│   ├── client/
+│   │   ├── public/
+│   │   ├── src/
+│   │   │   ├── actions/
+│   │   │   ├── api/
+│   │   │   ├── components/
+│   │   │   ├── img/
+│   │   │   ├── reducers/
+│   │   │   ├── store/
+│   │   │   ├── stylesheets/
+│   │   │   ├── test/
+│   │   │   ├── utils/
+│   │   │   ├── index.css
+│   │   │   ├── index.js
+│   │   │   ├── reportWebVital.js.js
+│   │   │   ├── root.js
+│   │   │   ├── serviceWorker.js
+│   │   │   └── setupTest.js
+│   │   │
+│   │   └── package.json
+│   │
+│   └── server/
+│       ├── src/
+│       │   ├── store/
+│       │   │   ├── index.js
+│       │   │   ├── Memory.js
+│       │   │   └── Redis.js
+│       │   ├── index.js
+│       │   └── socket.js
+│       │
+│       ├── .env
+│       ├── .env.dist
+│       ├── build.sh
+│       ├── index.html
+│       └── package.json
+│    
+```
 
-### Analyzing the Bundle Size
+## :memo: License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+This project is made available under the MIT License.
 
-### Making a Progressive Web Home
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<!-- MARKDOWN LINKS & IMAGES -->
+[product-screenshot]: screenshot.png

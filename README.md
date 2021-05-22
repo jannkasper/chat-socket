@@ -1,7 +1,7 @@
 ## Encrypted Chat Socket
 - Live: https://jkasper-chat-socket.herokuapp.com/ (be patient, server is sleeping)
 
-[![Product Name Screen Shot][product-screenshot]](https://github.com/jannkasper/stackoverflow-next/blob/master/screenshot.png)
+[![Product Name Screen Shot][product-screenshot]](https://github.com/jannkasper/encrypted-chat-socket/blob/master/screenshot.png)
 
 ## :rocket: Tech Stack
 
